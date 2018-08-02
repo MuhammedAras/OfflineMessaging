@@ -1,4 +1,5 @@
 ﻿using AspNetIdentity.Services;
+using AspNetIdentity.Validators;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -32,6 +33,23 @@ namespace AspNetIdentity.Infrastructure
                     TokenLifespan = TimeSpan.FromHours(6)
                 };
             }
+
+            //Configure validation logic for usernames
+            appUserManager.UserValidator = new MyCustomUserValidator(appUserManager)
+            {
+                AllowOnlyAlphanumericUserNames = true,
+                RequireUniqueEmail = true
+            };
+
+            //Configure validation logic for passwords
+            appUserManager.PasswordValidator = new MyCustomPasswordValidator
+            {
+                RequiredLength = 6,
+                RequireNonLetterOrDigit = true,
+                RequireDigit = false,
+                RequireLowercase = true,
+                RequireUppercase = true,
+            };
 
             return appUserManager;
         }
