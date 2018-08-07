@@ -134,18 +134,17 @@ namespace OfflineMessaging.Controllers
             {
                 return NotFound();
             }
-
+           
             var passwordSignInResult = await AppUserManager.CheckPasswordAsync(user, LoginModel.password);
             if (!passwordSignInResult)
             {
 
                 ctx.Login_Logs.Add(new Login_Logs()
                 {
-                    Ip_Address = request.UserHostAddress,
-                    Status = NotFound().ToString(),
+                    Ip_Address = Request.GetOwinContext().Request.RemoteIpAddress,
+                    Status = "The password is incorrect.",
                     Time=DateTime.Now,
-                    UserId=user.Id,
-                    User=user
+                    UserId=user.Id,           
                 });
                 await ctx.SaveChangesAsync();
 
