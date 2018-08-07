@@ -1,12 +1,8 @@
 ﻿using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.DataHandler;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+
 using Microsoft.Owin.Security.DataHandler.Encoder;
-using Microsoft.Owin.Security.DataHandler.Serializer;
-using Microsoft.Owin.Security.DataProtection;
 using System.Configuration;
 using Thinktecture.IdentityModel.Tokens;
 using System.IdentityModel.Tokens;

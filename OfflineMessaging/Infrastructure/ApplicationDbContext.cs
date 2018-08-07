@@ -1,12 +1,8 @@
 ﻿
 using OfflineMessaging.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Data.Entity;
-using System.Linq;
-using System.Web;
+
 
 namespace OfflineMessaging.Infrastructure
 {

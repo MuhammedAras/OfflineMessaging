@@ -7,10 +7,7 @@ using OfflineMessaging.Infrastructure;
 using Microsoft.AspNet.Identity;
 using System.Net.Http;
 using System.Web.Script.Serialization;
-
-using Newtonsoft.Json;
 using System.Net.Http.Headers;
-using System.Collections.Generic;
 using System.Web;
 
 namespace OfflineMessaging.Controllers
@@ -18,7 +15,7 @@ namespace OfflineMessaging.Controllers
     [RoutePrefix("api/accounts")]
     public class AccountsController : BaseApiController
     {
-        HttpRequest request;
+        
 
         [Authorize]
         [Route("users")]
@@ -39,17 +36,6 @@ namespace OfflineMessaging.Controllers
             return NotFound();
         }
 
-        [Authorize]
-        [Route("user/{username}")]
-        public async Task<IHttpActionResult> GetUserNameByName(string username)
-        {
-            var user = await AppUserManager.FindByNameAsync(username);
-            if (user != null)
-            {
-                return Ok(this.TheModelFactory.Create(user));
-            }
-            return NotFound();
-        }
 
         [AllowAnonymous]
         [Route("create")]
@@ -168,11 +154,10 @@ namespace OfflineMessaging.Controllers
             {
                 ctx.Login_Logs.Add(new Login_Logs()
                 {
-                    Ip_Address = request.UserHostAddress,
-                    Status = Ok().ToString(),
+                    Ip_Address = Request.GetOwinContext().Request.RemoteIpAddress,
+                    Status = "Login Successful.",
                     Time = DateTime.Now,
                     UserId = user.Id,
-                    User = user
                 });
                 await ctx.SaveChangesAsync();
                 return Ok(response.Content);
@@ -209,14 +194,14 @@ namespace OfflineMessaging.Controllers
 
         [Authorize]
         [Route("getblockedlist")]
-        public async Task<IHttpActionResult> GetBlockedList()
+        public IHttpActionResult GetBlockedList()
         {
             var userId = User.Identity.GetUserId();
 
             using (var ctx = ApplicationDbContext.Create())
             {
                 var BlockedList = ctx.Blocks
-                                  .Where(e => e.userId == userId).ToList();
+                                  .Where(e => e.userId == userId).Select(c => c.BlockedUser).ToList();
                 return Ok(BlockedList);
             }
         }

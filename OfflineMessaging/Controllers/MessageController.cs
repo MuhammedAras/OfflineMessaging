@@ -1,9 +1,7 @@
 ﻿using OfflineMessaging.Infrastructure;
 using OfflineMessaging.Models;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -14,8 +12,6 @@ namespace OfflineMessaging.Controllers
     [RoutePrefix("api/message")]
     public class MessageController : BaseApiController
     {
-        
-
         [Authorize]
         [Route("sentmessage")]
         public async Task<IHttpActionResult> SentMessage(MessageBindingModel messageModel)
@@ -39,7 +35,8 @@ namespace OfflineMessaging.Controllers
 
         [Authorize]
         [Route("getallmessage")]
-        public async Task< IHttpActionResult > GetAllMessage(int page = 0, int pageSize = 10) {
+        public IHttpActionResult GetAllMessage(int page = 0, int pageSize = 10)
+        {
 
             using (var ctx = ApplicationDbContext.Create())
             {
@@ -47,11 +44,11 @@ namespace OfflineMessaging.Controllers
 
                 var BlockedList = ctx.Blocks
                                   .Where(e => e.userId == userId);
-                                                  
+
                 //Just nonblocked users messages
                 IQueryable<Message> query;
                 query = ctx.Messages
-                    .Where(s => !(BlockedList.Any(a => a.BlockedUserId == s.SenderId)) && (s.SenderId == userId || s.ReceiverId == userId) )
+                    .Where(s => !(BlockedList.Any(a => a.BlockedUserId == s.SenderId)) && (s.SenderId == userId || s.ReceiverId == userId))
                     .OrderByDescending(c => c.Time).AsQueryable();
 
                 var totalCount = query.Count();
@@ -65,7 +62,7 @@ namespace OfflineMessaging.Controllers
                 {
                     TotalCount = totalCount,
                     TotalPages = totalPages,
-                   // PrevPageLink = prevLink,
+                    // PrevPageLink = prevLink,
                     //NextPageLink = nextLink
                 };
 
