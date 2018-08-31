@@ -25,10 +25,10 @@ namespace OfflineMessaging.Controllers
         }
 
         [Authorize]
-        [Route("user/{id:guid}", Name = "GetUserById")]
-        public async Task<IHttpActionResult> GetUser(string Id)
+        [Route("user/{username}", Name = "GetUserByUsername")]
+        public async Task<IHttpActionResult> GetUser(string username)
         {
-            var user = await this.AppUserManager.FindByIdAsync(Id);
+            var user = await this.AppUserManager.FindByNameAsync(username);
             if (user != null)
             {
                 return Ok(this.TheModelFactory.Create(user));

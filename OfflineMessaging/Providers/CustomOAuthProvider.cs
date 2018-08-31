@@ -46,5 +46,20 @@ namespace OfflineMessaging.Providers
 
             context.Validated(ticket);
         }
+        public override Task MatchEndpoint(OAuthMatchEndpointContext context)
+        {
+            if (context.OwinContext.Request.Method == "OPTIONS" && context.IsTokenEndpoint)
+            {
+                context.OwinContext.Response.Headers.Add("Access-Control-Allow-Methods", new[] { "POST" });
+                context.OwinContext.Response.Headers.Add("Access-Control-Allow-Headers", new[] { "accept", "authorization", "content-type" });
+                context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
+                context.OwinContext.Response.StatusCode = 200;
+                context.RequestCompleted();
+
+                return Task.FromResult<object>(null);
+            }
+
+            return base.MatchEndpoint(context);
+        }
     }
 }

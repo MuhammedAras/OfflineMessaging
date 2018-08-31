@@ -13,6 +13,6 @@ namespace OfflineMessaging.Models
         [Required]
         [DataType(DataType.Password)]
         public string password { get; set; }
-        public string grant_type { get; set; }
+        public string grant_type = "password";
     }
 }

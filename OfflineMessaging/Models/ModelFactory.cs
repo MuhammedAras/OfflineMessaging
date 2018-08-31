@@ -20,7 +20,7 @@ namespace OfflineMessaging.Models
         {
             return new UserReturnModel
             {
-                Url=_UrlHelper.Link("GetUserById",new {id=appUser.Id }),
+                Url=_UrlHelper.Link("GetUserByUsername", new {username=appUser.UserName }),
                 Id = appUser.Id,
                 UserName = appUser.UserName,
                 FullName = string.Format("{0} {1}", appUser.FirstName, appUser.LastName),
