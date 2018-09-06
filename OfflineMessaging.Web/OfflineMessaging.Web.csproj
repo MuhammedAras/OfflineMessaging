@@ -115,6 +115,7 @@
     <Content Include="Content\util.css" />
     <Content Include="Global.asax" />
     <Content Include="Images\bg-01.jpg" />
+    <Content Include="Scripts\GetMessages.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -122,11 +123,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApiClient.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\LoginStatus.cs" />
+    <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\MessagedUser.cs" />
     <Compile Include="Models\TokenModel.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -135,7 +139,10 @@
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Home.cshtml" />
+    <Content Include="Views\Message\Index.cshtml" />
+    <Content Include="Views\Message\MessagedUsers.cshtml" />
+    <Content Include="Views\Message\GetMessages.cshtml" />
+    <Content Include="Views\Message\yedek.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

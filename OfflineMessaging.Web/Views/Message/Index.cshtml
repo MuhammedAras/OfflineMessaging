@@ -1,0 +1,66 @@
+﻿@model OfflineMessaging.Web.Models.User
+
+@{
+
+}
+
+<!DOCTYPE html>
+
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Home</title>
+    <script src="~/Content/jquery/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap/css/bootstrap.min.css" id="bootstrap-css">
+    <script src="~/Content/bootstrap/js/bootstrap.min.js"></script>
+    <link href="~/Content/chat.css" rel="stylesheet" />
+    @Session["UserId"]=@Model.Id
+</head>
+<body>
+    <div class="container">
+        <h3 class="text-center">@Model.FullName</h3>
+        <div class="messaging">
+            <div class="inbox_msg">
+                <div class="inbox_people">
+                    <div class="headind_srch">
+                        <div class="recent_heading">
+                            <h4>Recent</h4>
+                        </div>
+                        <div class="srch_bar">
+                            <div class="stylish-input-group">
+                                
+                                <span class="input-group-addon">
+                                    <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+                                    <input type="text" class="search-bar" placeholder="Search">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Soldaki kişiler bölümü-->
+                    <div class="inbox_chat">
+                        @{Html.RenderAction("MessagedUsers");}
+                    </div>
+                </div>
+
+                <script src="~/Scripts/GetMessages.js"></script>
+                <!--Mesajlar bölümü-->
+                <div class="mesgs">
+                    <div class="msg_history">
+                        @{Html.RenderAction("GetMessages");}
+                    </div>
+                    <!--Mesaj Yazma Bölümü-->
+                    <div class="type_msg">
+                        <div class="input_msg_write">
+                            <input type="text" class="write_msg" placeholder="Type a message" />
+                            <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

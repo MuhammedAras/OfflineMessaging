@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Routing;
+using System.Collections.Generic;
 
 namespace OfflineMessaging.Controllers
 {
@@ -31,6 +32,41 @@ namespace OfflineMessaging.Controllers
                 await ctx.SaveChangesAsync();
                 return Ok();
             }   
+        }
+        [Authorize]
+        [Route("messagedusers")]
+        public IHttpActionResult GetMessagedUsers() { 
+
+            var userId = User.Identity.GetUserId();
+            using (var ctx = ApplicationDbContext.Create())
+            {
+                IEnumerable<Message> allMessages = ctx.Messages
+                    .Where(e => e.ReceiverId == userId || e.SenderId == userId).OrderByDescending(c => c.Time);
+                List<MessagedUser> users=new List<MessagedUser>();
+                foreach (var message in allMessages) {
+                    if (message.ReceiverId == userId)
+                    {
+                        var usr = this.AppUserManager.FindById(message.SenderId);
+                        users.Add(new MessagedUser {
+                            FullName = usr.FirstName + " " + usr.LastName,
+                            UserName=usr.UserName,
+                            Time=message.Time
+                        });
+                    }
+                    else
+                    {
+                        var usr = this.AppUserManager.FindById(message.ReceiverId);
+                        users.Add(new MessagedUser
+                        {
+                            FullName = usr.FirstName + " " + usr.LastName,
+                            UserName = usr.UserName,
+                            Time = message.Time
+                        });
+                    }
+                }
+                
+                return Ok(users);
+            }
         }
 
         [Authorize]

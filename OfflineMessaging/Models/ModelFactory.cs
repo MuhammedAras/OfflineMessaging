@@ -45,6 +45,16 @@ namespace OfflineMessaging.Models
                 Time=message.Time
             };
         }
+        public MessagedUser Create(MessagedUser messageduser)
+        {
+            return new MessagedUser
+            {
+               
+                UserName = messageduser.UserName,
+                FullName = messageduser.FullName
+                
+            };
+        }
     }
 
     public class UserReturnModel
@@ -67,5 +77,11 @@ namespace OfflineMessaging.Models
         public DateTime Time { get; set; }
         public string SenderId { get; set; }
         public string ReceiverId { get; set; }
+    }
+    public class MessagedUser
+    {
+        public string UserName { get; set; }
+        public string FullName { get; set; }
+        public DateTime Time { get; set; }
     }
 }

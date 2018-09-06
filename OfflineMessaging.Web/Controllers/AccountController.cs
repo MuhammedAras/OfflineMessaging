@@ -45,11 +45,12 @@ namespace OfflineMessaging.Web.Controllers
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     status.Success = true;
-                    status.TargetURL = Request.Url.Authority + "/Account/Home";
+                    status.TargetURL = Request.Url.Authority + "/message/index";
                     status.Message = "Login Successful";
                     TokenModel tokenModel = JsonConvert.DeserializeObject<TokenModel>(result);
                     Session["Token"] = tokenModel.access_token;
                     Session["Username"] = model.Username;
+                    
                     FormsAuthentication.SetAuthCookie(model.Username, true);
                     
                 }
@@ -67,19 +68,6 @@ namespace OfflineMessaging.Web.Controllers
             }
             return Json(status);
 
-        }
-
-
-        public async Task<ActionResult> Home()
-        {
-            ApiClient _client = new ApiClient();
-            HttpClient client = _client.GetApiClient();
-            client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", Session["Token"].ToString());
-
-            HttpResponseMessage response = await client.GetAsync("api/accounts/user/"+Session["Username"]);
-            var result = response.Content.ReadAsStringAsync().Result;
-            User user=JsonConvert.DeserializeObject<User>(result);
-            return View("Home",user);
         }
     }
 }

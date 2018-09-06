@@ -1,0 +1,17 @@
+﻿@model  IEnumerable<IGrouping<string, OfflineMessaging.Web.Models.MessagedUser>>
+
+@foreach(var user in Model) {
+    <div class="chat_list active_chat" id="@user.Select(e=>e.UserName).FirstOrDefault()">
+        <div class="chat_people">
+            <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+            <div class="chat_ib">
+                <h5>@user.Key <span class="chat_date">@user.Select(e=>e.Time.Date.Day).FirstOrDefault()</span></h5>
+                <p>
+                    Test, which is a new approach to have all solutions
+                    astrology under one roof.
+                </p>
+            </div>
+        </div>
+    </div>
+}
+
